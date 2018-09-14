@@ -76,6 +76,26 @@ export default {
         return d.id;
       });
 
+      // -------- zoom -----------
+      const zoomed = () => {
+        this.svg.selectAll("*").attr("transform", d3.event.transform);
+      };
+
+      this.svg
+        .append("rect")
+        .attr("width", this.width)
+        .attr("height", this.height)
+        .style("fill", "none")
+        .style("pointer-events", "all")
+        .call(
+          d3
+            .zoom()
+            .scaleExtent([1 / 2, 4])
+            .on("zoom", zoomed)
+        );
+
+      //--------------------------
+
       simulation.nodes(nodes).on("tick", ticked);
 
       simulation.force("link").links(links);
