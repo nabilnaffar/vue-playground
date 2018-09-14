@@ -9,7 +9,7 @@ export default {
   props: ["nodes", "links"],
   data: function() {
     return {
-      width: 960,
+      width: 600,
       height: 600,
       imgWidth: 18,
       imgHeight: 18,
@@ -27,7 +27,29 @@ export default {
   },
   methods: {
     draw: function() {
+      // claening...
       this.svg.selectAll("*").remove();
+
+      // -------- zoom -----------
+      const zoomed = () => {
+        this.svg.selectAll("*").attr("transform", d3.event.transform);
+      };
+
+      this.svg
+        .append("g")
+        .attr("class", "zoom")
+        .append("rect")
+        .attr("width", this.width)
+        .attr("height", this.height)
+        .style("fill", "none")
+        .style("pointer-events", "all")
+        .call(
+          d3
+            .zoom()
+            .scaleExtent([1 / 2, 4])
+            .on("zoom", zoomed)
+        );
+      //--------------------------
 
       const nodes = this.$props.nodes;
       const links = this.$props.links;
@@ -79,27 +101,6 @@ export default {
       simulation.nodes(nodes).on("tick", ticked);
 
       simulation.force("link").links(links);
-
-      // -------- zoom -----------
-      const zoomed = () => {
-        this.svg.selectAll("*").attr("transform", d3.event.transform);
-      };
-
-      this.svg
-        .select("g") //hack! fix it
-        .append("g")
-        .append("rect")
-        .attr("width", this.width)
-        .attr("height", this.height)
-        .style("fill", "none")
-        .style("pointer-events", "all")
-        .call(
-          d3
-            .zoom()
-            .scaleExtent([1 / 2, 4])
-            .on("zoom", zoomed)
-        );
-      //--------------------------
 
       function ticked() {
         link
