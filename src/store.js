@@ -25,14 +25,15 @@ export default new Vuex.Store({
   getters: {
     devicesNodes: state =>
       state.devices.nodes.filter(node => state.groups[node.group].value),
-    devicesLinks: state => state.devices.links
-    // .filter(link => {
-    //   const nodeA = state.devices.nodes.find(node => node.id === link.source );
-    //   const nodeB = state.devices.nodes.find(node => node.id === link.target );
-    //   const res = nodeA && nodeB && state.groups[nodeA.group].value && state.groups[nodeB.group].value;
-    //   console.log(res);
-    //   return res;
-    // })
+    devicesLinks: state =>
+      state.devices.links.filter(link => {
+        return (
+          link.source.group === undefined ||
+          link.target.group === undefined ||
+          (state.groups[link.source.group].value &&
+            state.groups[link.target.group].value)
+        );
+      })
   },
   mutations: {
     setDevices: (state, devices) => {
