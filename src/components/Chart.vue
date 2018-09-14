@@ -32,7 +32,8 @@ export default {
 
       // -------- zoom -----------
       const zoomed = () => {
-        this.svg.selectAll("*").attr("transform", d3.event.transform);
+        this.svg.selectAll(".nodes").attr("transform", d3.event.transform);
+        this.svg.selectAll(".links").attr("transform", d3.event.transform);
       };
 
       this.svg
@@ -42,6 +43,8 @@ export default {
         .attr("width", this.width)
         .attr("height", this.height)
         .style("fill", "none")
+        .style("stroke", "#eee")
+        .style("stroke-width", 4)
         .style("pointer-events", "all")
         .call(
           d3
