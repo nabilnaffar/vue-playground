@@ -95,7 +95,9 @@ export default {
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended)
-        );
+        )
+        .on("mouseover", node => this.$store.dispatch("setNode", { node }))
+        .on("mouseleave", () => this.$store.dispatch("setNode", { node: {} }));
 
       node.append("title").text(function(d) {
         return d.id;

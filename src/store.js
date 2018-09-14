@@ -20,7 +20,8 @@ export default new Vuex.Store({
       { name: 7, value: true },
       { name: 8, value: true },
       { name: 9, value: true }
-    ]
+    ],
+    selectedNode: {}
   },
   getters: {
     devicesNodes: state =>
@@ -33,7 +34,8 @@ export default new Vuex.Store({
           (state.groups[link.source.group].value &&
             state.groups[link.target.group].value)
         );
-      })
+      }),
+    selectedNode: state => state.selectedNode
   },
   mutations: {
     setDevices: (state, devices) => {
@@ -44,6 +46,9 @@ export default new Vuex.Store({
     },
     selectAllGroups: (state, { value }) => {
       state.groups = state.groups.map(group => ({ ...group, value }));
+    },
+    setNode: (state, { node }) => {
+      state.selectedNode = { id: node.id, group: node.group };
     }
   },
   actions: {
@@ -57,6 +62,9 @@ export default new Vuex.Store({
     },
     selectAllGroups: function({ commit }, { value }) {
       commit("selectAllGroups", { value });
+    },
+    setNode: function({ commit }, { node }) {
+      commit("setNode", { node });
     }
   }
 });
