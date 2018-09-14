@@ -11,7 +11,10 @@ export default {
     return {
       width: 960,
       height: 600,
+      imgWidth: 18,
+      imgHeight: 18,
       color: d3.scaleOrdinal(d3.schemeCategory10),
+      images: d => `img/a${d.group}.png`,
       svg: undefined
     };
   },
@@ -51,12 +54,13 @@ export default {
       const node = this.svg
         .append("g")
         .attr("class", "nodes")
-        .selectAll("circle")
+        .selectAll("image")
         .data(nodes)
         .enter()
-        .append("circle")
-        .attr("r", 5)
-        .attr("fill", d => this.color(d.group))
+        .append("svg:image")
+        .attr("xlink:href", d => this.images(d))
+        .attr("width", this.imgWidth)
+        .attr("height", this.imgHeight)
         .call(
           d3
             .drag()
@@ -88,13 +92,7 @@ export default {
             return d.target.y;
           });
 
-        node
-          .attr("cx", function(d) {
-            return d.x;
-          })
-          .attr("cy", function(d) {
-            return d.y;
-          });
+        node.attr("x", d => d.x - 9).attr("y", d => d.y - 9);
       }
 
       function dragstarted(d) {
