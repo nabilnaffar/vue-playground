@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <Chart />
+    <Chart v-bind:nodes="$store.getters.devicesNodes"
+            v-bind:links="$store.getters.devicesLinks" />
   </div>
 </template>
 
@@ -14,6 +15,9 @@ export default {
   components: {
     HelloWorld,
     Chart
+  },
+  mounted: function() {
+    this.$store.dispatch("loadDevices");
   }
 };
 </script>

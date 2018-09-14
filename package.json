@@ -13,6 +13,7 @@
     "d3": "^5.7.0",
     "d3-drag": "^1.2.3",
     "d3-force": "^1.1.2",
+    "d3-zoom": "^1.7.3",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
