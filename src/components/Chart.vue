@@ -25,10 +25,13 @@ export default {
       .attr("width", this.width)
       .attr("height", this.height);
   },
-  watch: {
-    nodes: function() {
+  methods: {
+    draw: function() {
+      this.svg.selectAll("*").remove();
+
       const nodes = this.$props.nodes;
       const links = this.$props.links;
+
       const simulation = d3
         .forceSimulation()
         .force(
@@ -111,6 +114,14 @@ export default {
         d.fx = null;
         d.fy = null;
       }
+    }
+  },
+  watch: {
+    nodes: function() {
+      this.draw();
+    },
+    links: function() {
+      this.draw();
     }
   }
 };
