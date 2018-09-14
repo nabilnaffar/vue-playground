@@ -40,6 +40,9 @@ export default new Vuex.Store({
     },
     setCheckedGroup: (state, { id, value }) => {
       state.groups[id].value = value;
+    },
+    selectAllGroups: (state, { value }) => {
+      state.groups = state.groups.map(group => ({ ...group, value }));
     }
   },
   actions: {
@@ -50,6 +53,9 @@ export default new Vuex.Store({
     },
     checkGroup: function({ commit }, { name, isChecked }) {
       commit("setCheckedGroup", { id: name, value: isChecked });
+    },
+    selectAllGroups: function({ commit }, { value }) {
+      commit("selectAllGroups", { value });
     }
   }
 });
