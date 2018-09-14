@@ -76,12 +76,18 @@ export default {
         return d.id;
       });
 
+      simulation.nodes(nodes).on("tick", ticked);
+
+      simulation.force("link").links(links);
+
       // -------- zoom -----------
       const zoomed = () => {
         this.svg.selectAll("*").attr("transform", d3.event.transform);
       };
 
       this.svg
+        .select("g") //hack! fix it
+        .append("g")
         .append("rect")
         .attr("width", this.width)
         .attr("height", this.height)
@@ -93,12 +99,7 @@ export default {
             .scaleExtent([1 / 2, 4])
             .on("zoom", zoomed)
         );
-
       //--------------------------
-
-      simulation.nodes(nodes).on("tick", ticked);
-
-      simulation.force("link").links(links);
 
       function ticked() {
         link
@@ -119,6 +120,7 @@ export default {
       }
 
       function dragstarted(d) {
+        d3.event.sourceEvent.stopPropagation();
         if (!d3.event.active) simulation.alphaTarget(0.3).restart();
         d.fx = d.x;
         d.fy = d.y;
