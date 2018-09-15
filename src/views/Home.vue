@@ -3,7 +3,7 @@
     <GroupsFilter />
     <Chart v-bind:nodes="$store.getters.devicesNodes"
             v-bind:links="$store.getters.devicesLinks" />
-    <Details />
+    <Details :node="$store.getters.selectedNode" />
 
   </div>
 </template>

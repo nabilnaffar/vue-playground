@@ -33,22 +33,46 @@ export default new Vuex.Store({
       { name: 8, value: true },
       { name: 9, value: true }
     ],
-    selectedNode: {}
+    selectedNode: {},
+    selectedPerson: undefined
   },
   getters: {
     companies: state => state.companies,
-    devicesNodes: state =>
-      state.devices.nodes.filter(node => state.groups[node.group].value),
+    devicesNodes: (state, getters) =>
+      state.devices.nodes
+        .filter(node => state.groups[node.group].value)
+        .filter(node => {
+          if (!state.selectedPerson) {
+            return true;
+          }
+          return getters.devicesLinks.find(
+            link => link.target.id === node.id || link.source.id === node.id
+          );
+        }),
     devicesLinks: state =>
-      state.devices.links.filter(link => {
-        return (
-          link.source.group === undefined ||
-          link.target.group === undefined ||
-          (state.groups[link.source.group].value &&
-            state.groups[link.target.group].value)
-        );
-      }),
-    selectedNode: state => state.selectedNode
+      state.devices.links
+        .filter(link => {
+          return (
+            link.source.group === undefined ||
+            link.target.group === undefined ||
+            (state.groups[link.source.group].value &&
+              state.groups[link.target.group].value)
+          );
+        })
+        .filter(link => {
+          if (!state.selectedPerson) return true;
+          return (
+            state.selectedPerson === link.target.id ||
+            state.selectedPerson === link.source.id
+          );
+        }),
+    selectedNode: state => state.selectedNode,
+    selectedPersonDetails: state => {
+      return (
+        state.selectedPerson &&
+        state.devices.nodes.find(node => node.id === state.selectedPerson)
+      );
+    }
   },
   mutations: {
     setDevices: (state, devices) => {
@@ -62,6 +86,9 @@ export default new Vuex.Store({
     },
     setNode: (state, { node }) => {
       state.selectedNode = { id: node.id, group: node.group };
+    },
+    setSelectedPerson: function(state, { id }) {
+      state.selectedPerson = id;
     }
   },
   actions: {
@@ -78,6 +105,9 @@ export default new Vuex.Store({
     },
     setNode: function({ commit }, { node }) {
       commit("setNode", { node });
+    },
+    setSelectedPerson: function({ commit }, { id }) {
+      commit("setSelectedPerson", { id });
     }
   }
 });

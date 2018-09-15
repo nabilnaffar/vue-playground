@@ -96,6 +96,9 @@ export default {
             .on("drag", dragged)
             .on("end", dragended)
         )
+        .on("dblclick", node =>
+          this.$store.dispatch("setSelectedPerson", { id: node.id })
+        )
         .on("mouseover", node => this.$store.dispatch("setNode", { node }))
         .on("mouseleave", () => this.$store.dispatch("setNode", { node: {} }));
 
