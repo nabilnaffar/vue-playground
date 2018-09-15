@@ -5,6 +5,18 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    companies: {
+      0: "Spotify",
+      1: "Hangouts",
+      2: "Facebook",
+      3: "Google",
+      4: "Reddit",
+      5: "Apple",
+      6: "Dropbox",
+      7: "Soundcloud",
+      8: "Microsoft",
+      9: "Instagram"
+    },
     devices: {
       nodes: [],
       links: []
@@ -24,6 +36,7 @@ export default new Vuex.Store({
     selectedNode: {}
   },
   getters: {
+    companies: state => state.companies,
     devicesNodes: state =>
       state.devices.nodes.filter(node => state.groups[node.group].value),
     devicesLinks: state =>

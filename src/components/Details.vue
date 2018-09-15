@@ -2,8 +2,8 @@
     <div class="node-details" v-if="$store.getters.selectedNode.id !== undefined">
         <img width="50px" height="50px" v-bind:src="`/img/a${$store.getters.selectedNode.group}.png`" />
         <div class="content">
-            <div>{{$store.getters.selectedNode.id}}</div>
-            <div>{{$store.getters.selectedNode.group}}</div>
+            <div class="name">{{$store.getters.selectedNode.id}}</div>
+            <div class="company">{{$store.getters.companies[$store.getters.selectedNode.group]}}</div>
         </div>
     </div>
 </template>
@@ -14,6 +14,7 @@ export default {};
 
 <style lang='scss'>
 .node-details {
+  margin: 30px 0;
   justify-content: center;
   display: flex;
   .content {
@@ -21,6 +22,13 @@ export default {};
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    text-align: left;
+    .name {
+      font-size: 20px;
+    }
+    .company {
+      font-size: 14px;
+    }
   }
 }
 </style>
